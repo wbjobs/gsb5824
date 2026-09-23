@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSV ⇄ JSON 转换工具</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>CSV ⇄ JSON 转换工具</h1>
+    <p class="subtitle">Web Worker 后台解析 · 支持大文件 · 本地历史记录</p>
+  </header>
+
+  <main>
+    <section class="toolbar">
+      <label>方向
+        <select id="direction">
+          <option value="csv2json">CSV → JSON</option>
+          <option value="json2csv">JSON → CSV</option>
+        </select>
+      </label>
+      <label>分隔符
+        <select id="delimiter">
+          <option value="," selected>逗号 ,</option>
+          <option value=";">分号 ;</option>
+          <option value="tab">制表符 Tab</option>
+          <option value="|">竖线 |</option>
+          <option value="custom">自定义…</option>
+        </select>
+      </label>
+      <input id="customDelimiter" maxlength="1" placeholder="1 个字符" style="display:none" size="4">
+      <label><input type="checkbox" id="hasHeader" checked> 含表头</label>
+      <label id="inferTypesRow"><input type="checkbox" id="inferTypes" checked> 类型推断（数字/布尔）</label>
+      <label class="file-label">选择文件
+        <input type="file" id="fileInput" accept=".csv,.json,.txt,.ndjson">
+      </label>
+      <span id="fileInfo" class="file-info"></span>
+    </section>
+
+    <section class="panes">
+      <div class="pane">
+        <div class="pane-header">
+          <span>输入</span>
+          <button id="clearBtn" title="清空输入输出">清空</button>
+        </div>
+        <textarea id="input" spellcheck="false" placeholder="粘贴 CSV 文本，或点击“选择文件”导入 .csv …"></textarea>
+      </div>
+      <div class="pane">
+        <div class="pane-header">
+          <span>输出</span>
+          <span>
+            <button id="swapBtn" title="输出作为输入并反转方向">⇄ 反向转换</button>
+            <button id="copyBtn" disabled>复制</button>
+            <button id="downloadBtn" disabled>下载</button>
+          </span>
+        </div>
+        <textarea id="output" spellcheck="false" readonly placeholder="转换结果…"></textarea>
+      </div>
+    </section>
+
+    <section class="actions">
+      <button id="convertBtn" class="primary">开始转换</button>
+      <div id="progress" class="progress" style="display:none"><div id="progressBar"></div></div>
+      <span id="status"></span>
+    </section>
+
+    <section id="warnings" class="warnings"></section>
+
+    <section class="history">
+      <div class="pane-header">
+        <span>历史记录（IndexedDB，保留最近 20 条）</span>
+        <button id="clearHistoryBtn">清空历史</button>
+      </div>
+      <ul id="historyList"></ul>
+    </section>
+  </main>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
